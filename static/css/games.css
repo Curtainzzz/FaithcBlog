@@ -1,0 +1,29 @@
+
+body.background{
+    background:url(/static/img/games.jpg) center fixed no-repeat;
+    background-size:100% 100%
+}
+.head{
+    border: 5px solid  ;
+    border-color: rgb(80%,80%,80%) yellow;
+    margin: 1cm 1cm 1cm 0cm;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    text-decoration:underline;
+    writing-mode: tb-lr;
+
+
+}
+.content{
+    margin:10% 5% 10% 10%;
+    background: white;
+    min-height:20cm;
+    padding: 20px;
+
+}
+
+#star{
+    color:yellow;
+    margin:-5%;
+}
