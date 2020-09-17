@@ -25,7 +25,7 @@ SECRET_KEY = '&8d273g8v-2aoc6n1sd5+h9%0(*-d10!e8ncx8+!5r*h1kls9y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['39.108.109.162','127.0.0.1','www.faithc.xin']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
