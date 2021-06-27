@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+{#{% block article_dir %}#}
+{#<li v-for="item in items" >#}
+{#    <a ><h1 @click="showToggle(item)">{[item.name]}</h1></a>#}
+{#    <ul v-if="item.isSubShow">#}
+{#        <li v-for="subItem in item.subItems">#}
+{#        <h3>{[ subItem.name ]}</h3>#}
+{#        </li>#}
+{#    </ul>#}
+{#</li>#}
+{#<p>#}
+{#{% endblock %}#}
+{% block page_css %}
+     <link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+{% endblock %}
+
+{% block page_content %}
+{#    <div class="content pure-u-1 pure-u-md-3-4">#}
+    <div >
+            <!-- A wrapper for all the blog posts -->
+        <div class="article-list">
+            <div>
+                <h1>文章列表</h1><br><br>
+                {% for article in articles %}
+                <section class="post">
+                    <header class="post-header">
+
+                         {% if article.type == 'c#' %}
+                        <img class="post-avatar" alt="Eric Ferraiuolo&#x27;s avatar" height="48" width="48" src="{% static 'img/C#.jpg' %}">
+                        {% endif %}
+                        {% if article.type == 'python' %}
+                        <img class="post-avatar" alt="Eric Ferraiuolo&#x27;s avatar" height="48" width="48" src=" {% static 'img/PYTHON.jpg' %}">
+                        {% endif %}
+                        {% if article.type == 'sql' %}
+                        <img class="post-avatar" alt="Eric Ferraiuolo&#x27;s avatar" height="48" width="48" src="{% static 'img/SQL.jpg' %}">
+                        {% endif %}
+                        {% if article.type == 'struct' %}
+                        <img class="post-avatar" alt="Eric Ferraiuolo&#x27;s avatar" height="48" width="48" src="{% static 'img/STRUCT.jpg' %}">
+                        {% endif %}
+{#                        <h2 class="post-title"><a href="../article/?id={{ article.id }}">{{ article.title }}</a></h2>#}
+                        <h2 class="post-title"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
+                        <!--
+                        <p class="post-meta">
+                            By <a class="post-author" href="#">Eric Ferraiuolo</a> under <a class="post-category post-category-js" href="#">JavaScript</a>
+                        </p>-->
+                    </header>
+
+                    <div class="post-description">
+                        <p>
+                            {{ article.introduce }}
+                        </p>
+                    </div>
+                </section>
+            {% endfor %}
+            </div>
+            <div>
+                {% if articles.has_previous %}
+                <a href="?page={{ articles.previous_page_number }}">前页</a>
+                {% endif %}
+                <span>{{ articles.number }} of {{ articles.paginator.num_pages }} </span>
+                {% if articles.has_next %}
+                <a href="?page={{articles.next_page_number}}">下页</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="pure-menu pure-menu-horizontal" style="text-align: center">
+                    <ul>
+                        <li class="pure-menu-item"><a class="pure-menu-link">About</a></li>
+                        <li class="pure-menu-item"><a class="pure-menu-link">Twitter</a></li>
+                        <li class="pure-menu-item"><a class="pure-menu-link">GitHub</a></li>
+                    </ul>
+                </div>
+    </div>
+{#    </div>#}
+{% endblock %}

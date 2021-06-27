@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_css %}
+    <link rel="stylesheet"  href="{% static 'article/css/article.css' %}">
+    {% block comment_css %}
+    {% endblock %}
+{% endblock %}
+
+
+
+{% block page_content %}
+    <div class="article">
+    <h1 align="center" >{{article.title}}</h1>
+    <div >{{ article.content|safe }}</div>
+    </div>
+    <div class="comments">
+        {% include 'comments/comments.html' %}
+    </div>
+
+
+{% endblock %}

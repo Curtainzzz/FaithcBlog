@@ -1,0 +1,47 @@
+<div class="right">
+    <div class="widget">
+        {% if user.is_authenticated %}
+            <h2>{{ user.username }}&nbsp;&nbsp;<a href="{% url 'account_app:logout' %}">登出</a></h2>
+        {% else %}
+            <a href="{% url 'account_app:login' %}">登录</a>
+        {% endif %}
+
+
+    </div>
+    <hr>
+    <div class="widget">
+                <form role="search" method="get" id="searchform" class="searchform" action="https://www.lylinux.net/search">
+            <div >
+{#                <label class="screen-reader-text" for="s">搜索：</label>#}
+                <input style="width: 150px;" type="text" value="" name="q" id="q">
+                <input type="submit" id="search_submit" value="搜索">
+            </div>
+        </form>
+
+    </div>
+    <hr>
+    <div class="widget" >
+        <h3>分类</h3>
+        <ul>
+        {% if sidebar_categorys %}
+            {% for category in sidebar_categorys %}
+                <li><a class="sidebar-tag"  href="{{ category.get_absolute_url  }}">{{ category.name }}</a></li>
+            {% endfor %}
+        {% endif %}
+        </ul>
+
+    </div>
+    <hr>
+    <div class="widget">
+        <h3>标签云</h3>
+            {% if sidebar_tags %}
+                {% for tag,count,size in sidebar_tags %}
+                    <a href="{{ tag.get_absolute_url }}" class="sidebar-tag"
+                       style="font-size: {{ size }}pt;" title="{{ count }}个话题"> {{ tag.name }}
+                    </a>
+                {% endfor %}
+            {% endif %}
+
+    </div>
+    <hr>
+</div>

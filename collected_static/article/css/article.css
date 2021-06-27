@@ -1,0 +1,8 @@
+
+.article {
+    border-bottom: 4px double #ededed;
+    margin-bottom: 10px;
+    padding: 40px 20px;
+    word-wrap: break-word;
+}
+

@@ -1,0 +1,32 @@
+{% load blog_tags %}
+<script>
+    function do_reply(comment_id) {
+        var reply = document.getElementById("respond");
+        var element = document.getElementById('div-comment-'+comment_id);
+        document.getElementById('id_parent_comment_id').value =comment_id;
+        element.appendChild(reply);
+    }
+</script>
+<div>
+<div id = "div-comment-{{ comment_item.pk }}">
+    <span class="comment_name"><a>{{ comment_item.author.username }}</a></span>
+    <p class="comment_content">{{ comment_item.message }}</p>
+    <div class="reply"><a rel="nofollow" class="comment-reply-link"
+                              href="javascript:void(0)"
+                              onclick="do_reply('{{ comment_item.pk }}')"
+                              aria-label="回复给{{ comment_item.author.username }}">回复</a></div>
+
+</div>
+{% query article_comments parent_comment=comment_item as child_comments %}
+{% for child_comment in child_comments %}
+    <div id = "div-comment-{{ child_comment.pk }}" style="margin-left: 100px">
+        <a>{{ child_comment.author.username }}</a>
+        <p>{{ child_comment.message }}</p>
+        <div class="reply"><a rel="nofollow" class="comment-reply-link"
+                              href="javascript:void(0)"
+                              onclick="do_reply('{{ comment_item.pk }}')"
+                              aria-label="回复给{{ comment_item.author.username }}">回复</a></div>
+    </div>
+{% endfor %}
+</div>
+<hr>

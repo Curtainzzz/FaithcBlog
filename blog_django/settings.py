@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blogapp',
+    'account_app',
+    'comment_app',
 ]
 
 MIDDLEWARE = [
@@ -50,12 +52,31 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+        }
+}
+
 ROOT_URLCONF = 'blog_django.urls'
 
 TEMPLATES = [
+	{
+		'BACKEND': 'django.template.backends.django.DjangoTemplates',
+		'DIRS': [os.path.join(BASE_DIR, 'templates').replace('\\', '/')],
+		'APP_DIRS': True,
+		'OPTIONS': {
+			'context_processors': [
+				'django.template.context_processors.debug',
+				'django.template.context_processors.request',
+				'django.contrib.auth.context_processors.auth',
+				'django.contrib.messages.context_processors.messages',
+			],
+		},
+	},
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates').replace('\\', '/')],
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',  # 设置使用jinja2模板
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'bysjapp/templates')],  # 设置（模板）html文件位置
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -64,8 +85,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'environment': 'blogapp.jinja2.environment',  # 设置模板环境
         },
     },
+
 ]
 
 WSGI_APPLICATION = 'blog_django.wsgi.application'
@@ -76,16 +99,18 @@ WSGI_APPLICATION = 'blog_django.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'blog',
-        'USER': 'root',
-        'PASSWORD': 'lzc123967268',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'NAME': os.environ.get('DJANGO_MYSQL_DATABASE') or 'blog',
+        'USER': os.environ.get('DJANGO_MYSQL_USER') or 'root',
+        'PASSWORD': os.environ.get('DJANGO_MYSQL_PASSWORD') or '456',
+        'HOST': os.environ.get('DJANGO_MYSQL_HOST') or '127.0.0.1',
+        'PORT': os.environ.get('DJANGO_MYSQL_PORT') or '3306',
+        'OPTIONS':{
+            'charset':'utf8mb4',
+        },
     }
 }
+
 
 
 # Password validation
@@ -94,23 +119,25 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
+    },#检查密码是否过于简单
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', 'OPTIONS':{'min_length':6},
+    },#检查密码长度是否比6长
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
+    },#检查密码是否过于常见
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    },#检查密码是否只有数字
 ]
 
+AUTH_USER_MODEL = 'account_app.BlogUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
 TIME_ZONE = 'UTC'
 
@@ -126,3 +153,19 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS=(os.path.join(BASE_DIR, "static"),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+
+#email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = 465
+#发送邮件的邮箱
+EMAIL_HOST_USER = 'zkk7321@163.com'
+#在邮箱中设置的客户端授权密码
+EMAIL_HOST_PASSWORD = 'NTJICHTBYOLTVAOP'
+#收件人看到的发件人
+DEFAULT_FROM_EMAIL = "'FaithcBlog<zkk7321@163.com>"
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+# EMAIL_HOST_USER = os.environ.get('DJANGO_EMAIL_USER')
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

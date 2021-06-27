@@ -1,0 +1,13 @@
+.widget {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.sidebar-tag {
+    text-decoration-line: underline;
+
+}
+
+.sidebar-tag:link {color:#757575;}
+.sidebar-tag:visited {color:#757575;}
+.sidebar-tag:hover {color:#21759b;}

@@ -1,0 +1,16 @@
+<div id="respond">
+{#    <h3>{{ user.username }}发表评论</h3>#}
+           <form action="{% url 'comment_app:post_comment' article.pk %}" method="post">
+            {% csrf_token %}
+               <div class="layui-form-item layui-form-text" style="background-color: #FAFAFA;width:80%;padding: 10px">
+                    <label style="font-weight: 300;font-size:30px;float:left;width: 110px;text-align: center">评论</label>
+                    <div class="layui-input-block" style="">
+                        {{ form.message }}
+                    </div>
+                   {{ form.parent_comment_id }}
+                   <button type="submit" class="layui-btn layui-btn-primary" style="margin-left:110px;margin-top:20px; ">发表评论</button>
+                </div>
+
+           </form>
+</div>
+
