@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'blog_django.middleware.IpLimitMiddleware',
 ]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
