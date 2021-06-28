@@ -23,8 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '&8d273g8v-2aoc6n1sd5+h9%0(*-d10!e8ncx8+!5r*h1kls9y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+# DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG') or True
 ALLOWED_HOSTS = ['*']
 
 
@@ -51,6 +51,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 CACHES = {
     "default": {
