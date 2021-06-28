@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django import forms
+from django.core.cache import cache
 from blogapp.models import *
 from comment_app.form import CommentForm
 import datetime
@@ -14,18 +15,18 @@ ARTICLE_LIMIT = 5
 # Create your views here.
 def message(request):
     # print(request.GET)
-    all=message.objects.order_by('-id').all()
+    all=Message.objects.order_by('-id').all()
     limit=8
     paginator=Paginator(all,limit)
     page=request.GET.get('page',1)
     loadded=paginator.page(page)
-    return render(request,'message.html',{'all': loadded})
+    return render(request, 'message.html', {'all': loadded})
 def save(request):
     username=request.POST.get("name")
     title=request.POST.get("title")
     context=request.POST.get("message")
     publish=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    content =message(title=title,content=context, username=username,publish=publish)
+    content =Message(title=title,content=context, username=username,publish=publish)
     content.save()
     return HttpResponseRedirect('/message/')
 def blog(request):
@@ -37,8 +38,11 @@ def blog(request):
     return  render(request,'blog.html',{'articles':loaded})
 
 def article_list(request):
-    article = Article.objects.order_by('-id').all()
-    paginator = Paginator(article, ARTICLE_LIMIT)
+    article_obs = cache.get('bysj:login:article_obs')
+    if not article_obs:
+        article_obs = Article.objects.order_by('-id').all()
+        cache.set('bysj:login:message_obs', article_obs, 60 * 2)
+    paginator = Paginator(article_obs, ARTICLE_LIMIT)
     page = request.GET.get('page', 1)
     loaded = paginator.page(page)
     return render(request, 'article_list.html', {'articles': loaded})

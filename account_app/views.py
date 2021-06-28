@@ -19,7 +19,8 @@ class BlogRegisterView(FormView):
         user.source = 'Register'
         user.save(True)
         # site = Site.objects.get_current().domain
-        ip = self.request.get_host()
+        # ip = self.request.get_host()
+        ip = "175.24.42.81"
         path = reverse('account_app:result')
         user_id = user.id
         url=f"http://{ip}{path}?type=validation&id={user_id}"

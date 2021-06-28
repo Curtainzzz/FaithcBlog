@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A layout example that shows off a blog page with a list of posts.">
+
+    <title>Blog-Faith'C</title>
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="{% static 'css/blog-old-ie.css' %}">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="{% static 'css/blog1.css' %}">
+    <!--<![endif]-->
+
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+        <div class="header">
+            <img class="post-avatar" alt="Tilo Mitra&#x27;s avatar" height="60" width="60" src="{% static 'img/头像.jpg' %}">
+            <h1 class="brand-title">Faith'C Blog</h1>
+            <h2 class="brand-tagline">——做一个简单的人,<br>平和而执着,谦虚而无畏</h2>
+
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li>
+                        <a href="../blog/"><h1>文章</h1></a>
+                 cd   </li>
+                    <p>
+                    <li>
+                        <a href="../games/"><h1>游戏</h1></a>
+                    </li>
+                    <p>
+                    <li>
+                        <a><h1>留言</h1></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div class="content pure-u-1 pure-u-md-3-4">
+    <p><b>欢迎评论留言</b></p>
+    <p>＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊</p>
+    <form action="/save/" method="post" novalidate="novalidate">
+        {% csrf_token %}
+        姓名：
+        <br />
+        <input type="text" name="name">
+
+        <br />
+        题目：
+        <br>
+        <input type="'text" name="title">
+        <br>
+        留言：
+        <br />
+        <textarea rows="5" cols="20" name="message"></textarea>
+        <br />
+        <input type="submit" value="发表" />
+    </form>
+    <p>＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊</p>
+    <p>留言列表</p>{% for message in all %}
+        <p>--------------------------------------------------------------</p>
+        <p> {{ message.username}}<span style="position: absolute; right:17cm; color: silver">{{ message.publish }}</span> </p>
+        <p>{{ message.title }}</p>
+        <p> {{ message.content }} </p>
+    {% endfor %}
+    </div>
+    <div class="content pure-u-1 pure-u-md-3-4" align="center">
+        {% if all.has_previous %}
+        <a href="?page={{ all.previous_page_number }}">前页</a>
+        {% endif %}
+        <span>{{ all.number }} of {{ all.paginator.num_pages }} </span>
+        {% if all.has_next %}
+        <a href="?page={{all.next_page_number}}">下页</a>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>

@@ -35,10 +35,10 @@
                             <a href="{% url 'blogapp:article_list' %}"><h1>文章</h1></a>
                         </li><p>
                         {% endblock %}
-                    <li class="head-catalog">
-                        <a href="{% url 'blogapp:games' %}"><h1>归档</h1></a>
-                    </li>
-                    <p>
+{#                    <li class="head-catalog">#}
+{#                        <a href="{% url 'blogapp:games' %}"><h1>归档</h1></a>#}
+{#                    </li>#}
+{#                    <p>#}
                     <li class="head-catalog">
                         <a href="../message/"><h1>留言</h1></a>
                     </li>
@@ -48,7 +48,7 @@
         <div class="content">
         {% block page_content %}
         {% endblock %}
-    </div>
+        </div>
         {% load_sidebar user %}
     </div>
 
